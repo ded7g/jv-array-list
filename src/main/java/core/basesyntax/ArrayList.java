@@ -9,14 +9,14 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void add(T value) {
-        ensureCapacity();
+        growIfFull();
         array[size++] = value;
     }
 
     @Override
     public void add(T value, int index) {
         checkIndexForAdd(index);
-        ensureCapacity();
+        growIfFull();
         System.arraycopy(array, index, array, index + 1, size - index);
         array[index] = value;
         size++;
@@ -71,9 +71,9 @@ public class ArrayList<T> implements List<T> {
         return size == 0;
     }
 
-    private void ensureCapacity() {
+    private void growIfFull() {
         if (size == capacity) {
-            capacity = capacity * 3 / 2 + 1;
+            capacity = capacity * 3 / 2;
             T[] newArray = (T[]) new Object[capacity];
             System.arraycopy(array, 0, newArray, 0, size);
             array = newArray;
